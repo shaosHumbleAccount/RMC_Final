@@ -11,10 +11,15 @@ tau = M*qppr + C*qpr + G;
 numOfPara = 0;
 expandedTau = expand(tau);
 for jointIdx = 1:length(expandedTau)
+    jointIdx
     terms = children(expandedTau(jointIdx));
+    length(terms)
     for termIdx = 1:length(terms)
         para = sym('1');
         term = terms(termIdx);
+        if  mod(termIdx,10) == 0
+            disp(sprintf('%d of %d, joint %d',termIdx, length(terms),jointIdx ));
+        end
         elems = children(term);
         for elemIdx = 1:length(elems)
             elemAsStr = char(elems(elemIdx));
@@ -27,12 +32,12 @@ for jointIdx = 1:length(expandedTau)
         end
         if(para ~= 1)
             hasSame = false;
-            for paraIdx = 1:numOfPara
-                if(Para(paraIdx) == para)
-                    hasSame = true;
-                    break;
-                end
-            end
+%             for paraIdx = 1:numOfPara
+%                 if(Para(paraIdx) == para)
+%                     hasSame = true;
+%                     break;
+%                 end
+%             end
             if(~hasSame)
                 numOfPara = numOfPara + 1;
                 Para(numOfPara) = para;
