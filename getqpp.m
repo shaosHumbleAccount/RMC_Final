@@ -160,7 +160,7 @@ G =...
 
 toc
 
-Kp = 0.06*diag([2, 2, 2, 2, 2, 2]);
+Kp = 0.07*diag([2, 2, 2, 2, 2, 2]);
 Kd = 0.0*diag([2, 2, 2, 2, 2, 2]);
 Tau = G - Kp * (q_t - desired_q) - Kd * (qp_t - desired_qp);%FIXME
 Qpp=(M)\(Tau-G);%-C*qp_t -F_fric
