@@ -20,7 +20,7 @@ x = [q(1) qp(1) 0 0 0 0 0];
 y = [q qp qpp];
 
 R = zeros(3,3);
-cd 
+
 for t = 1: N
   H = zeros(7,3);
   H(1,1) = 1;
