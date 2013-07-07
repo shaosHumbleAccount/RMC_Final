@@ -1,9 +1,9 @@
 function [Qpp, Tau] = getqpp(q_t, qp_t, desired_q, desired_qp, desired_qpp)
 
-Kp = 1*diag([0.1,0.1,0.1,0.1,1,0.02]);
-Kd = 1*diag([0.1,0.1,0.1,0.1,1,0.02]);
-%Kp = 0.2;
-%Kd = 1;
+%Kp = 1*diag([0.1,0.1,0.1,0.1,1,0.02]);
+%Kd = 1*diag([0.1,0.1,0.1,0.1,1,0.02]);
+Kp = 1;
+Kd = 1;
 %Joint Position
 q1=q_t(1);
 q2=q_t(2);
@@ -170,13 +170,13 @@ qppr = [0;0;0;0;0;0];
 Controller = 2;
 if Controller == 2
     diffAngle = q_t - desired_q;
-%     if(diffAngle > pi)
-%         diffAngle = mod(diffAngle,-pi);
-%     end
-%     if(diffAngle < -pi)
-%         diffAngle = mod(diffAngle,pi);
-%     end
-    qpr = desired_qp - Kp*(q_t - desired_q);
+    if(diffAngle > pi)
+        diffAngle = mod(diffAngle,-pi);
+    end
+    if(diffAngle < -pi)
+        diffAngle = mod(diffAngle,pi);
+    end
+    qpr = desired_qp - Kp*(diffAngle);
     qppr  = desired_qpp - Kp*(qp_t - desired_qp);
 end
 qp1r = qpr(1);
@@ -854,6 +854,6 @@ if Controller == 2
     Tau = Yr_errorspace*Theta - Kd*Sq + F_fric;
     %Tau = Yr_errorspace*Theta.*(ones(6,1) - Kd*Sq) ;
 end
-%Tau = zeros(6,1);
-Qpp= M\(Tau - G - F_fric);%  - C*qp_t
+%Tau = zeros(6,1) + F_fric;
+Qpp= M\(Tau - G - C*qp_t - F_fric );%  
 %Qpp(2:6) = zeros(5,1);
