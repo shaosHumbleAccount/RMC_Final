@@ -58,3 +58,10 @@ for idx = 2:numOfElem
 end
 
 save('Theta.mat','ParasStr','Theta','numOfPara','uniqueElem','numOfUniqueElem')
+
+id = fopen('Theta.txt','w');
+for row = 1:numOfPara
+        s = sprintf('Theta(%d,%d) = %s;\n',row,1,ParasStr{row});
+        fprintf(id,s);
+end
+fclose(id);

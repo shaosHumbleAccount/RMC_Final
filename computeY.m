@@ -31,7 +31,6 @@ for jointIdx = 1:numOfJoint
             tmp = mycoeff( tmp , tE(1), ...
                 diff(log(Theta(paraIdx)), tE(1))*tE(1));
         end
-        tmp
         %eliminate false match
         if sumOfOrder == 2
             for elemIdx = 1:numOfUniqueElem
@@ -47,7 +46,6 @@ for jointIdx = 1:numOfJoint
                 end
             end
         end
-        tmp
         toc
         Yr_errorspace(jointIdx,paraIdx) = tmp;
     end
@@ -62,6 +60,7 @@ for row = 1:numOfJoint
 end
 fclose(id);
 
+save('Yr_errorspace.mat','Yr_errorspace')
 disp('****************************************')
 
 tau = M*qpp + C*qp + G;
@@ -84,7 +83,6 @@ for jointIdx = 1:numOfJoint
             tmp = mycoeff( tmp , tE(1), ...
                 diff(log(Theta(paraIdx)), tE(1))*tE(1));
         end
-        tmp
         if sumOfOrder == 2
             for elemIdx = 1:numOfUniqueElem
                 elemAsStr = char(uniqueElem(elemIdx));
@@ -100,7 +98,6 @@ for jointIdx = 1:numOfJoint
                 end
             end
         end
-        tmp
         toc
         Yr_norm(jointIdx,paraIdx) = tmp;
     end
