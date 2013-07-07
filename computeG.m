@@ -1,7 +1,7 @@
 clear all
 clc
 load 'def.mat'
-load 'kinamtic.mat'
+load 'kinematic.mat'
 load 'Jacobian.mat'
 load 'M.mat'
 numOfJoint = 6;

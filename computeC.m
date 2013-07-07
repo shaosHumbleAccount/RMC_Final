@@ -1,10 +1,10 @@
 clear all
 clc
 load 'def.mat'
-load 'kinamtic.mat'
+load 'kinematic.mat'
 load 'Jacobian.mat'
 load 'M.mat'
-'computing C'
+disp('computing C');
 %Compute C
 C = sym(zeros(numOfJoint,numOfJoint));
 
@@ -25,3 +25,12 @@ disp('simple start')
 C = simplify(C);
 disp('simple done')
 save('C.mat','C')
+
+id = fopen('c.txt','w');
+for row = 1:6
+    for col = 1:6
+        s = sprintf('C(%d,%d) = %s;\n',row,col,char(C(row,col)));
+        fprintf(id,s);
+    end
+end
+fclose(id);

@@ -19,7 +19,7 @@ I1=[I111 I112 I113;
     I113 I123 I133];
 
 I2=[I211 I212 I213;
-    I211 I222 I223;
+    I212 I222 I223;
     I213 I223 I233];
 
 I3=[I311 I312 I313;
@@ -31,7 +31,7 @@ I4=[I411 I412 I413;
     I413 I423 I433];
 
 I5=[I511 I512 I513;
-    I511 I522 I523;
+    I512 I522 I523;
     I513 I523 I533];
 
 I6=[I611 I612 I613;
@@ -45,17 +45,19 @@ m_s = [m1;m2;m3;m4;m5;m6];
 
 
 %Joint Varible
-syms q1 q2 q3 q4 q5 q6 qp1 qp2 qp3 qp4 qp5 qp6 real;
+syms q1 q2 q3 q4 q5 q6 real;
+syms qp1 qp2 qp3 qp4 qp5 qp6 real;
+syms qpp1 qpp2 qpp3 qpp4 qpp5 qpp6 real
 
 q=[q1;q2;q3;q4;q5;q6];
 qp=[qp1;qp2;qp3;qp4;qp5;qp6];     %Vector of velocity of angle
-
+qpp = [qpp1;qpp2;qpp3;qpp4;qpp5;qpp6];
 
 g=sym('g','real');           %gravity
-syms pi,'real';     %% this is important, if it not do like this, cos(pi/2) will not be =0;
-syms alpha,'real';
+syms pi real;     %% this is important, if it not do like this, cos(pi/2) will not be =0;
+syms alpha real;
 
-syms g_vec  P  'real';
+syms g_vec  P real;
 g_vec = [0;0;-g];
 
 syms qp1r qp2r qp3r qp4r qp5r qp6r  real
@@ -121,7 +123,7 @@ isRevolute = [1 1 1 1 1 1];
 
 disp('Computing Jacobians')
 
-save('kinamtic.mat','numOfJoint','isRevolute','HTcmi0_s','HTi0_s')
+save('kinematic.mat','numOfJoint','isRevolute','HTcmi0_s','HTi0_s')
 
 %Compute Jacobians (Jcm_s)
 for idxOfCM = 1:numOfJoint

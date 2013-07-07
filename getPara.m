@@ -22,3 +22,5 @@ for idx = 2:length(paraAsStr)
         Paras(numOfPara) =  paraAsStr(idx);
     end
 end
+
+save('Theta','Paras')
