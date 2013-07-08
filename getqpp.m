@@ -1,4 +1,4 @@
-function [Qpp, Tau, M_part] = getqpp(q_t, qp_t, desired_q, desired_qp, desired_qpp)
+function [Qpp, Tau, M_part, G_part,F_fric] = getqpp(q_t, qp_t, desired_q, desired_qp, desired_qpp)
 
 Kp = 1*diag([5,2,3,2,1,0.02]);
 Kd = 1*diag([5,2,5,2,1,0.02]);
@@ -87,15 +87,15 @@ m5 = 1;
 m6 = 1;
 
 %friction parameters
-w1 = 0*[1; 1; 1; 1; 1; 1];
+w1 = 0.15*[1; 1; 1; 1; 1; 1];
 
-w2 = 0*[1; 1; 1; 1; 1; 1];
+w2 = 0.13*[1; 1; 1; 1; 1; 1];
 
-Bv = diag([1, 1, 1, 1, 1, 1]);
+Bv = 1*diag([1, 1, 1, 1, 1, 1]);
 
-Bf1 = 0*[0.1,0.1,0.1,0.1,0.1,0.1];
+Bf1 = 0.1*[0.1,0.1,0.1,0.1,0.1,0.1];
 
-Bf2 = 0*[0.1,0.1,0.1,0.1,0.1,0.1];
+Bf2 = 0.2*[0.1,0.1,0.1,0.1,0.1,0.1];
 
 F_fric = Bv*qp_t;
 
@@ -857,6 +857,7 @@ if Controller == 2
     %Tau = Yr_errorspace*Theta.*(ones(6,1) - Kd*Sq) ;
 end
 %Tau = zeros(6,1) + F_fric;
-Qpp= M\(Tau - G - C*qp_t - F_fric );%  
+Qpp= M\(Tau - G - C*qp_t - F_fric);%  
 M_part = M*Qpp;
+G_part = G;
 %Qpp(2:6) = zeros(5,1);
