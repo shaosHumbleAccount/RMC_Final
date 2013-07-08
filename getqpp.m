@@ -1,9 +1,9 @@
-function [Qpp, Tau] = getqpp(q_t, qp_t, desired_q, desired_qp, desired_qpp)
+function [Qpp, Tau, M_part] = getqpp(q_t, qp_t, desired_q, desired_qp, desired_qpp)
 
-%Kp = 1*diag([0.1,0.1,0.1,0.1,1,0.02]);
-%Kd = 1*diag([0.1,0.1,0.1,0.1,1,0.02]);
-Kp = 1;
-Kd = 1;
+Kp = 1*diag([5,2,3,2,1,0.02]);
+Kd = 1*diag([5,2,5,2,1,0.02]);
+%Kp = 1;
+%Kd = 1;
 %Joint Position
 q1=q_t(1);
 q2=q_t(2);
@@ -87,22 +87,23 @@ m5 = 1;
 m6 = 1;
 
 %friction parameters
-w1 = [1; 1; 1; 1; 1; 1];
+w1 = 0*[1; 1; 1; 1; 1; 1];
 
-w2 = [1; 1; 1; 1; 1; 1];
+w2 = 0*[1; 1; 1; 1; 1; 1];
 
 Bv = diag([1, 1, 1, 1, 1, 1]);
 
-Bf1 = [0.1,0.1,0.1,0.1,0.1,0.1];
+Bf1 = 0*[0.1,0.1,0.1,0.1,0.1,0.1];
 
-Bf2 = [0.1,0.1,0.1,0.1,0.1,0.1];
+Bf2 = 0*[0.1,0.1,0.1,0.1,0.1,0.1];
 
 F_fric = Bv*qp_t;
 
-% for idex = 1:6
-%     F_fric(idex) = F_fric(idex) + Bf1(idex) * (1 - 2 / (1 + exp(2 * w1(idex) * qp_t(idex))))...
-%         + Bf2(idex) * (1 - 2 / ( 1 + exp( 2 * w2(idex) * qp_t(idex))));
-% end
+for idex = 1:6
+    F_fric(idex) = F_fric(idex) +...
+        Bf1(idex) * (1 - 2 / (1 + exp(2 * w1(idex) * qp_t(idex))))...
+        + Bf2(idex) * (1 - 2 / ( 1 + exp( 2 * w2(idex) * qp_t(idex))));
+end
 
 %-----------------
 
@@ -179,6 +180,7 @@ if Controller == 2
     qpr = desired_qp - Kp*(diffAngle);
     qppr  = desired_qpp - Kp*(qp_t - desired_qp);
 end
+
 qp1r = qpr(1);
 qp2r = qpr(2);
 qp3r = qpr(3);
@@ -851,9 +853,10 @@ Theta(93,1) = l6*m5;
 %Tau = G - Kp * (q_t - desired_q) - Kd * (qp_t - desired_qp);%FIXME
 Sq = qp_t - qpr;
 if Controller == 2
-    Tau = Yr_errorspace*Theta - Kd*Sq + F_fric;
+    Tau = Yr_errorspace*Theta - Kd*Sq ;%+ F_fric
     %Tau = Yr_errorspace*Theta.*(ones(6,1) - Kd*Sq) ;
 end
 %Tau = zeros(6,1) + F_fric;
 Qpp= M\(Tau - G - C*qp_t - F_fric );%  
+M_part = M*Qpp;
 %Qpp(2:6) = zeros(5,1);

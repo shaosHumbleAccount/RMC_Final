@@ -1,24 +1,24 @@
 clc
 clear all
-q_0 = [0+0.3; pi/2; pi; 0 ; pi; 0];
+q_0 = [0; pi/2; pi/2; 0 ; pi; 0];
 qp_0 = zeros(6,1);
 qpp_0 = zeros(6,1);
 
-q_t = [0; pi/2 ;pi; 0 ; pi; 0];
+%q_t = [0; pi/2 ;pi/2; 0 ; pi; 0];
 %q_t(3) = pi/3;
 qp_t = zeros(6,1);
 qpp_t = zeros(6,1);
 
 %trajectory parameters
-%A = [3,1,4,1,2,3];
-%B = [1,2,1,2,3,5];
-A = zeros(1,6);
-B = zeros(1,6);
+A = [0.5,0,0,0,0,0];
+B = [0,0,0,0,0,0];
+%A = zeros(1,6);
+%B = zeros(1,6);
 Wf = 1;
 
 
 delta_t = 0.01; % in second
-max_t = 5; % in second
+max_t = 10; % in second
 
 t_s = 0 : delta_t : max_t;
 q_s = zeros(length(t_s),6);
@@ -29,13 +29,16 @@ desired_q_s = zeros(length(t_s),6);
 desired_qp_s = zeros(length(t_s),6);
 
 Tau_s = zeros(length(t_s),6);
+M_part_s  = zeros(length(t_s),6);
 
-%[q_t qp_t] = trajectory_fourier(A, B, 0, Wf, q_0);%start at desired q(t = 0)
+[q_t qp_t] = trajectory_fourier(A, B, 0, Wf, q_0);%start at desired q(t = 0)
 
 last_qp = 0;
 last_qpp = 0;
+last2_qpp = 0;
 for t_idx = 1:length(t_s)
     
+    tic
     t = t_s(t_idx);
     [desired_q, desired_qp] = trajectory_fourier(A, B, t, Wf, q_0);
     
@@ -45,9 +48,14 @@ for t_idx = 1:length(t_s)
     desired_qp_s(t_idx,:) = desired_qp;
     
     last_qp = qp_t;
-    qp_t = qp_t + (qpp_t + qpp_t)/2.*delta_t;
-    q_t = q_t + (qp_t + last_qp)/2.*delta_t;
+    last_qpp =  qpp_t;
     
+    if t_idx > 2
+        last2_qpp = qpp_s(t_idx - 2);
+    end
+    
+    qp_t = qp_t + (last_qpp + qpp_t)/2.*delta_t;
+    q_t = q_t + (qp_t + last_qp)/2.*delta_t;
     
     for jid = 1:6
         if(q_t(jid) > pi)
@@ -57,11 +65,10 @@ for t_idx = 1:length(t_s)
             q_t(jid) = mod(q_t(jid),pi);
         end
     end
+    [qpp_t Tau M_part]= getqpp(q_t, qp_t, desired_q, desired_qp,zeros(6,1));
+    %qp_t = 0.999*qp_t;
     
-    tic
-    
-    [qpp_t Tau]= getqpp(q_t, qp_t, desired_q, desired_qp,zeros(6,1));
-    
+    %qpp_t(1) = 0;
     qpp_t(2) = 0;
     qpp_t(3) = 0;
     qpp_t(4) = 0;
@@ -73,6 +80,7 @@ for t_idx = 1:length(t_s)
     qp_s(t_idx,:) = qp_t;
     qpp_s(t_idx,:) = qpp_t;
     Tau_s(t_idx,:) = Tau;
+    M_part_s(t_idx,:) = M_part;
 end
 
 figure
