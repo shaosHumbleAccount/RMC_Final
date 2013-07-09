@@ -1,16 +1,16 @@
 clc
 clear all
-q_0 = [0; pi/2; pi/2; 0 ; pi; 0];
+q_0 = [0+0.3; pi/2+0.2; pi/2+0.4; 0 ; pi; 0];
 qp_0 = zeros(6,1);
 qpp_0 = zeros(6,1);
 
-%q_t = [0; pi/2 ;pi/2; 0 ; pi; 0];
+q_t = [0; pi/2 ;pi/2; 0 ; pi; 0];
 %q_t(3) = pi/3;
 qp_t = zeros(6,1);
 qpp_t = zeros(6,1);
 
 %trajectory parameters
-A = [0.5,0,0,0,0,0];
+A = [0,0,0,0,0,0];
 B = [0,0,0,0,0,0];
 %A = zeros(1,6);
 %B = zeros(1,6);
@@ -18,7 +18,7 @@ Wf = 1;
 
 
 delta_t = 0.01; % in second
-max_t = 50; % in second
+max_t = 2; % in second
 
 t_s = 0 : delta_t : max_t;
 q_s = zeros(length(t_s),6);
@@ -32,7 +32,7 @@ Tau_s = zeros(length(t_s),6);
 M_part_s  = zeros(length(t_s),6);
 F_fric_s  = zeros(length(t_s),6);
 G_part_s = zeros(length(t_s),6);
-[q_t qp_t] = trajectory_fourier(A, B, 0, Wf, q_0);%start at desired q(t = 0)
+%[q_t qp_t] = trajectory_fourier(A, B, 0, Wf, q_0);%start at desired q(t = 0)
 
 last_qp = 0;
 last_qpp = 0;
@@ -70,11 +70,11 @@ for t_idx = 1:length(t_s)
     %qp_t = 0.999*qp_t;
     
     %qpp_t(1) = 0;
-    qpp_t(2) = 0;
-    qpp_t(3) = 0;
-    qpp_t(4) = 0;
+    %qpp_t(2) = 0;
+    %qpp_t(3) = 0;
+    %qpp_t(4) = 0;
     qpp_t(5) = 0;
-    qpp_t(6) = 0;
+    %qpp_t(6) = 0;
     toc
     
     q_s(t_idx,:) = q_t;

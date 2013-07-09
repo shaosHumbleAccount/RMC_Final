@@ -1,7 +1,7 @@
 function [Qpp, Tau, M_part, G_part,F_fric] = getqpp(q_t, qp_t, desired_q, desired_qp, desired_qpp)
 
-Kp = 1*diag([5,2,3,2,1,0.02]);
-Kd = 1*diag([5,2,5,2,1,0.02]);
+Kp = 30*diag([1,1,1,1,1,1]);
+Kd = 30*diag([1,1,1,1,1,1]);
 %Kp = 1;
 %Kd = 1;
 %Joint Position
@@ -853,7 +853,7 @@ Theta(93,1) = l6*m5;
 %Tau = G - Kp * (q_t - desired_q) - Kd * (qp_t - desired_qp);%FIXME
 Sq = qp_t - qpr;
 if Controller == 2
-    Tau = Yr_errorspace*Theta - Kd*Sq ;%+ F_fric
+    Tau = Yr_errorspace*Theta - M*Kd*Sq ;%+ F_fric
     %Tau = Yr_errorspace*Theta.*(ones(6,1) - Kd*Sq) ;
 end
 %Tau = zeros(6,1) + F_fric;
