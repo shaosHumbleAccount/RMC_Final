@@ -1,6 +1,6 @@
 clc
 clear all
-q_0 = [0+0.3; pi/2+0.2; pi/2+0.4; 0 ; pi; 0];
+q_0 = [0; pi/2; pi/2; 0 ; pi; 0];
 qp_0 = zeros(6,1);
 qpp_0 = zeros(6,1);
 
@@ -10,11 +10,11 @@ qp_t = zeros(6,1);
 qpp_t = zeros(6,1);
 
 %trajectory parameters
-A = [0,0,0,0,0,0];
+A = [2,0,0,0,0,0];
 B = [0,0,0,0,0,0];
 %A = zeros(1,6);
 %B = zeros(1,6);
-Wf = 1;
+Wf = 2;
 
 
 delta_t = 0.01; % in second

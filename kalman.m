@@ -5,21 +5,21 @@ sym m ;
 delta_t = 0.01;
 N = length(q);
 
-P = diag([1e-5 1e-5 0.1 0.1 0.1 0.1 1]);%initial error cov
+P = diag([1 1 1 1 1 1 1]);%initial error cov
 
-x = [q(1) qp(1) 1 0.1 0.2 0.15 0.3]'; %initial estimate state
+x = [q(1) qp(1) 0 0 0 0 0]'; %initial estimate state
 
 Fric = (tau - g_t - m);
 
 y = [q qp Fric];
 
 %observation noise
-R = [1e-5 0 0
-    0 1e-5 0
+R = [1e-1 0 0
+    0 1e-1 0
     0 0 0.1];
 
 %model noise
-Q = diag([1e-5 1e-5 1 1 1 1 1]);
+Q = diag([1 1 1 1 1 1 1 ]);
 
 x_s = zeros(N,7);
 x_s(1,:) = x;

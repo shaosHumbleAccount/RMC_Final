@@ -1,6 +1,6 @@
 function [Qpp, Tau, M_part, G_part,F_fric] = getqpp(q_t, qp_t, desired_q, desired_qp, desired_qpp)
 
-Kp = 30*diag([1,1,1,1,1,1]);
+Kp = 1*diag([1,1,1,1,1,1]);
 Kd = 30*diag([1,1,1,1,1,1]);
 %Kp = 1;
 %Kd = 1;
@@ -79,12 +79,12 @@ I622 = 0.02;
 I623 = 0.04;
 I633 = 0.02;
 
-m1 = 1;
-m2 = 1;
-m3 = 1;
+m1 = 30;
+m2 = 10;
+m3 = 2;
 m4 = 1;
-m5 = 1;
-m6 = 1;
+m5 = 0.2;
+m6 = 0.5;
 
 %friction parameters
 w1 = 0.15*[1; 1; 1; 1; 1; 1];
