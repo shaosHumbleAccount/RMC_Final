@@ -1,8 +1,9 @@
-function [desired_q, desired_qp] = trajectory_fourier( A, B, desired_t, Wf, q_0)
+function [desired_q, desired_qp, desired_qpp] = trajectory_fourier( A, B, desired_t, Wf, q_0)
 numOfJoint = length(q_0);
 
 desired_q = zeros(numOfJoint,1);
 desired_qp = zeros(numOfJoint,1);
+desired_qpp = zeros(numOfJoint,1);
 N = size(A,1);
 
 for idx = 1: numOfJoint
@@ -14,6 +15,9 @@ for idx = 1: numOfJoint
         
         desired_qp(idx) = desired_qp(idx) + A(l,idx) * cos(l * Wf*desired_t) + ...
             B(l,idx)*sin(l*Wf*desired_t);
+        
+        desired_qpp(idx) = desired_qpp(idx) - l * Wf*A(l,idx) * sin(l * Wf*desired_t) + ...
+            l*Wf*B(l,idx)*cos(l*Wf*desired_t);
     end
 end
 

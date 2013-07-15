@@ -14,8 +14,8 @@ load 'paraAsStr.mat'
 %     idx
 %     paraAsStr{idx} = char(Para(idx));
 % end
-numOfPara = 0;
 ParasStr(1) = paraAsStr(1);
+numOfPara = 1;
 for idx = 2:length(paraAsStr)
     hasSame = false;
     for j = 1:numOfPara

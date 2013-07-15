@@ -18,7 +18,7 @@ if(order == 1)
     end
 end
 if(order == 2)
-    c = coeffs(expand(exp)+0.01 + term + term.^2,term);
+    c = coeffs(expand(exp) + 0.01 + term + term.^2,term);
     if size(c,2) >= 3
         result = c(3) - 1;
     else

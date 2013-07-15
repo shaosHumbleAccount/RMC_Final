@@ -10,25 +10,28 @@ C = sym(zeros(numOfJoint,numOfJoint));
 
 for k = 1:numOfJoint
     for j = 1:numOfJoint
-        k
-        j
+        fprintf('computing C(%d, %d)\n',k,j);
         for i = 1:numOfJoint
             C(k,j) = C(k,j) + (1/2)*(diff(M(k,j), q(i)) + diff(M(k,i), q(j)) - diff(M(i,j), q(k)))*qp(i);
         end
-        %filename = sprintf('Ck%dj%d',k,j);
-        %save(filename,'C');
     end
 end
 save('unsimpled_C.mat','C')
 
-disp('simple start')
-C = simplify(C);
-disp('simple done')
+disp('simplifying C ...')
+
+for row = 1:numOfJoint
+    for col = 1:numOfJoint
+        fprintf('simplifying C(%d,%d)\n',row, col);
+        C(row,col) = simplify(expand(C(row,col)));
+    end
+end
+disp('simplification done')
 save('C.mat','C')
 
-id = fopen('c.txt','w');
-for row = 1:6
-    for col = 1:6
+id = fopen('C.txt','w');
+for row = 1:numOfJoint
+    for col = 1:numOfJoint
         s = sprintf('C(%d,%d) = %s;\n',row,col,char(C(row,col)));
         fprintf(id,s);
     end

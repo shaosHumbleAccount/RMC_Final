@@ -1,12 +1,12 @@
 %function [ theta_simp ] = simplifytheta( Yr )
 %SIMPLIFYTHETA Summary of this function goes here
 %   Detailed explanation goes here
-
+Yr = Yr_norm;
 numOfPara = size(Yr,2);
 
 numOfJoint = size(Yr,1);
 
-NumOfChildren = zeros(idx_joint,numOfPara);
+NumOfChildren = zeros(numOfJoint,numOfPara);
 for idx_joint = 1: numOfJoint
     for idx_para = 1: numOfPara
         NumOfChildren(idx_joint,idx_para) = length(children(Yr(idx_joint,idx_para)));
@@ -31,6 +31,5 @@ for (idx_joint = 1: numOfJoint)
         end
         E(idx_joint) = { E_temp};
     end
-    
 end
 
