@@ -5,9 +5,9 @@ sym m ;
 delta_t = 0.01;
 N = length(q);
 
-P = diag([1 1 1 1 1 1 1]);%initial error cov
+P = diag([1 1 0.2 0.2 0.2 0.2 0.2]);%initial error cov
 
-x = [q(1) qp(1) 0 0 0 0 0]'; %initial estimate state
+x = [q(1) qp(1) 0.2 0.1 0.1 1 1]'; %initial estimate state
 
 Fric = (tau - g_t - m);
 
@@ -19,7 +19,7 @@ R = [1e-1 0 0
     0 0 0.1];
 
 %model noise
-Q = diag([1 1 1 1 1 1 1 ]);
+Q = diag([0.1 0.1 0.001 0.001 0.001 0.001 0.001 ]);
 
 x_s = zeros(N,7);
 x_s(1,:) = x;

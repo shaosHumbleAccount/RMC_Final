@@ -1,0 +1,39 @@
+Final Project for Praktikum Robot Kinematic And Dynamic Control SS 2013
+Tianlan Shao	Mengqi Wang
+
+1. Compute Matrice of the Dynamic Model
+  In the folder /computemat, run the following scripts in order:
+	Process.m	#compute M
+	computeC.m	#compute C
+	verifyMC.m	#verify N = Mdot - 2*C is skew-symmetric
+	computeG.m	#compute G
+
+2. Extract and Minimize Parameter Set
+  In the folder /computemat, run the following scripts in order:
+	extractTheta.m		#extract parameters (should get 94 parameters).
+	computeY.m		#compute Y (6*94)
+	getEforsimpTheta.m	#compute equivalance matrix
+	minimize_theta.m	#minimize parameter set (46 parameters)
+  For both full and minimized parameter set, I have verified that tau = Y*Theta.
+
+
+[NOTE]: Since the whole process above takes a few hours, all results are provided
+in the folders /matfiles and /mat_txt.
+
+3. Simulate
+  In simulator.m, by setting matrice A and B, the trajectory can be set. All dynamic
+parameters and control scheme can be set in getqpp.m.
+
+4. Estimate Friction Parameters
+  After running the simulator once (only move one joint at once), run est_fric/estimateFric.m.
+We abandoned our kalman filter because the current optimation-based method obviously outperforms
+it.
+
+5. Estimate Theta
+At the end of simulator.m, the parameter are estimated.
+[Note] The simple least squared method is not suitable in this case, because 
+it requires very good data to avoid ill-conditioned matrix inverse. On the other
+hand, online linear regression or SVD perform much better, and can usually get
+reasonable result even with some arbitrary trajectory.
+
+
